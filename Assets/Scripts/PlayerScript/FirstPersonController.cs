@@ -5,9 +5,10 @@ using UnityEngine;
 public class FirstPersonController : MonoBehaviour
 {
     private Rigidbody rb;
+
+    [Header("Camera Settings")]      
     public Camera playerCamera;
 
-    public bool lockCursor;
     public float fov = 60f;
     public bool invertCamera = false;
     public bool cameraCanMove = true;
@@ -17,12 +18,13 @@ public class FirstPersonController : MonoBehaviour
     private float yaw = 0.0f;
     private float pitch = 0.0f;
 
+    [Header("Movement Settings")]    
     public bool playerCanMove = true;
     public float walkSpeed = 5f;
     public float maxVelocityChange = 10f;
     private bool isWalking = false;
 
-
+    [Header("Sprinting Settings")]   
     public bool enableSprint = true;
     public bool unlimitedSprint = false;
     public KeyCode sprintKey = KeyCode.LeftShift;
@@ -36,7 +38,7 @@ public class FirstPersonController : MonoBehaviour
     private bool isSprintCooldown = false;
     private float sprintCooldownReset;
 
-
+    [Header("Crouching Settings")]   
     public bool enableCrouch = true;
     public bool holdToCrouch = true;
     public KeyCode crouchKey = KeyCode.LeftControl;
@@ -46,7 +48,7 @@ public class FirstPersonController : MonoBehaviour
     private bool isCrouched = false;
     private Vector3 originalScale;
 
-
+    [Header("HeadBob Settings")]   
     public bool enableHeadBob = true;
     public Transform joint;
     public float bobSpeed = 10f;
@@ -54,6 +56,7 @@ public class FirstPersonController : MonoBehaviour
 
     private Vector3 jointOriginalPos;
     private float timer = 0;
+
 
 
     private void Awake()
@@ -73,10 +76,7 @@ public class FirstPersonController : MonoBehaviour
 
     void Start()
     {
-        if(lockCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        GameManager.instance.LockCursor();           
     }
 
     float camRotation;
@@ -169,6 +169,12 @@ public class FirstPersonController : MonoBehaviour
         }
     }
 
+
+    public void ToggleMovement(bool canMove)
+    {
+        playerCanMove = canMove;
+    }
+    
     void FixedUpdate()
     {
 

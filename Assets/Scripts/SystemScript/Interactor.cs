@@ -1,34 +1,62 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 interface IInteractable {
-    public void Interact();
+    void Interact();
 }
 
 public class Interactor : MonoBehaviour
 {
-    private Camera playerCamera;
+    public GameObject interactionCanvas;
     public float interactRange = 3f;
+    public TextMeshProUGUI objectNameText;
+    private Camera playerCamera;
+    private Animator interactionAnim;
 
     void Start()
     {
         playerCamera = GetComponent<Camera>();
+        interactionAnim = interactionCanvas.GetComponent<Animator>();
+        objectNameText = interactionCanvas.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        RaycastInteraction();
+    }
+
+    void RaycastInteraction()
+    {
+        Ray r = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * interactRange, Color.red, 1.0f);
+        
+        if (Physics.Raycast(r, out RaycastHit hitInfo, interactRange))
         {
-            Ray r = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-            Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * interactRange, Color.red, 1.0f);
-            if (Physics.Raycast(r, out RaycastHit hitInfo, interactRange))
+            if (hitInfo.collider.gameObject.TryGetComponent(out InteractableObject interactableObject))
             {
-                if(hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
+                    objectNameText.text = GetObjectName(interactableObject.ObjectName);
+            }
+
+            interactionAnim.SetBool("NotInteracting", false);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
                 {
                     interactObj.Interact();
                 }
             }
         }
+        else
+        {
+            interactionAnim.SetBool("NotInteracting", true);
+                objectNameText.text = "";
+        }
     }
+
+    public string GetObjectName(string ObjectName)
+    {
+        return ObjectName;
+    }    
 }
