@@ -10,6 +10,7 @@ public class Flashlight : MonoBehaviour
 
     private void Update()
     {
+        //We simply call the function here with some restrictions
         if (canFlashlightFunction && !GameManager.instance.IsGamePaused())
         {
           if (Input.GetMouseButtonDown(0))
@@ -21,12 +22,14 @@ public class Flashlight : MonoBehaviour
 
     public void ToggleFunctionality(bool canFunction)
     {
+        //This is important as it would help the gameManager to access the functionality of the flashlight
         canFlashlightFunction = canFunction;
     }
     
 
     private void ActivateAndDeactivateFlashlight()
     {
+        //This turns off/on the light as well as playing an animation that uses the trigger "On&Off"
         isOn = !isOn;
         if (flashlight != null)
         {

@@ -269,7 +269,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void HeadBob()
     {
-        if(isWalking)
+        if(isWalking && playerCanMove && cameraCanMove && !GameManager.instance.IsGamePaused())
         {
             // Calculates HeadBob speed during sprint
             if(isSprinting)

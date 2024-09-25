@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ItemSway : MonoBehaviour
 {
+    //IDK What these are lol I just got this from the internet
     [SerializeField] public Transform weaponTransform;
 
     [Header("Sway Properties")]

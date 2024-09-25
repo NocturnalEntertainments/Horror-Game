@@ -6,7 +6,13 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance;
+
+    //This help to pause the game
     private bool isPaused = false;    
+
+    //This bool is important as it acts as a restriction in that way when an event is playing
+    //Like if the player touches a trigger and he cant move this make it so that pausing the game won't help
+    public bool isPlayingEvent;
     private void Awake()
     {
         if (instance == null)
@@ -112,20 +118,32 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         isPaused = true;
-        LockPlayer();
+        if (!isPlayingEvent)
+        {
+          LockPlayer();
+        }
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1f;
         isPaused = false; 
-        UnlockPlayer();
+
+        if (!isPlayingEvent)
+        {
+          UnlockPlayer();
+        }        
     }
 
     public bool IsGamePaused()
     {
         return isPaused; 
     }
+
+    public bool IsGameEventPlaying()
+    {
+        return isPlayingEvent; 
+    }    
  
 #endregion    
 

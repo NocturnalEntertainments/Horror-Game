@@ -29,16 +29,17 @@ public class Interactor : MonoBehaviour
 
     void RaycastInteraction()
     {
+        //We use raycasting here using the "r" variable to check
         Ray r = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * interactRange, Color.red, 1.0f);
-        
         if (Physics.Raycast(r, out RaycastHit hitInfo, interactRange))
         {
+            //This gets the name of the object allowing for a flexible access
             if (hitInfo.collider.gameObject.TryGetComponent(out InteractableObject interactableObject))
             {
                     objectNameText.text = GetObjectName(interactableObject.ObjectName);
             }
 
+            //This plays an animation for the UI Interaction
             interactionAnim.SetBool("NotInteracting", false);
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -50,6 +51,7 @@ public class Interactor : MonoBehaviour
         }
         else
         {
+            //Pretty much resets the whole thing when the player is no longer interacting with something
             interactionAnim.SetBool("NotInteracting", true);
                 objectNameText.text = "";
         }

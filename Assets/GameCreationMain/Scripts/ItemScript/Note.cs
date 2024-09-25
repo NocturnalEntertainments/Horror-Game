@@ -23,6 +23,7 @@ public class Note : MonoBehaviour
         }
         else
         {
+            //When the note is closes it access various functions in the gameManager
             Debug.Log("Note Closed");        
             GameManager.instance.LockCursor();
             GameManager.instance.UnlockItemFunction();           
