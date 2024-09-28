@@ -6,6 +6,7 @@ public class Flashlight : MonoBehaviour
     public Light flashlight;
     public Animator anim;
     private bool canFlashlightFunction = true;
+    private bool isFlaslightEquipped = true;    
     private bool isOn;
 
     private void Update()
@@ -18,14 +19,33 @@ public class Flashlight : MonoBehaviour
               ActivateAndDeactivateFlashlight();
           }
         }
+        Debug.Log(isFlaslightEquipped);
     }
 
-    public void ToggleFunctionality(bool canFunction)
+    public void ToggleFlashlightFunctionality(bool canFunction)
     {
         //This is important as it would help the gameManager to access the functionality of the flashlight
         canFlashlightFunction = canFunction;
     }
+
+    public void ToggleFlashlightEquipState(bool isEquipped)
+    {     
+        //This is important as it would help the gameManager to access the functionality of the flashlight
+        isFlaslightEquipped = isEquipped;
+                UpdateFlashlightState();   
+    }    
     
+    private void UpdateFlashlightState()
+    {
+        if (isFlaslightEquipped)
+        {
+            anim.SetBool("Unequipped",false);       
+        }
+        else
+        {
+            anim.SetBool("Unequipped",true);
+        }
+    }
 
     private void ActivateAndDeactivateFlashlight()
     {

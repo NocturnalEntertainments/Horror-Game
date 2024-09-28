@@ -93,8 +93,8 @@ public class EventTriggers : MonoBehaviour
     #endregion
 
     #region ItemFunctions
-    public void LockItemFunctionTrigger() => HandleGameFunction(GameManager.instance.LockItemFunction, GameManager.instance.UnlockItemFunction);
-    public void UnlockItemFunctionTrigger() => HandleGameFunction(GameManager.instance.UnlockItemFunction, GameManager.instance.LockItemFunction);
+    public void LockItemFunctionTrigger() => HandleGameFunction(GameManager.instance.LockAllItemFunction, GameManager.instance.UnlockAllItemFunction);
+    public void UnlockItemFunctionTrigger() => HandleGameFunction(GameManager.instance.UnlockAllItemFunction, GameManager.instance.LockAllItemFunction);
     #endregion
 
     // Coroutine for non-GameManager events with delay and duration

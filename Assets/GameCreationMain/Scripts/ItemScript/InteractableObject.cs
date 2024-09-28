@@ -61,7 +61,7 @@ public class InteractableObject : MonoBehaviour, IInteractable
                 break;
             case ObjectType.NoteType:
                 Debug.Log("Note Open");
-                GameManager.instance.LockItemFunction();
+                GameManager.instance.LockAllItemFunction();
                 GameManager.instance.UnlockCursor();
                 GameManager.instance.LockCameraMovement();  
                 GameManager.instance.LockPlayerMovement();              

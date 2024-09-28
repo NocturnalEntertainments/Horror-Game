@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         LockCursor();
         LockCameraMovement();
         LockPlayerMovement();    
-        LockItemFunction();           
+        LockAllItemFunction();           
     }
 
     public void UnlockPlayer()
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         UnlockCursor();
         UnlockCameraMovement();
         UnlockPlayerMovement();    
-        UnlockItemFunction();      
+        UnlockPlayerMovement();      
     }    
 
     public void LockCursor()
@@ -94,23 +94,61 @@ public class GameManager : MonoBehaviour
 #endregion
 
 #region ItemFunctions
-    public void LockItemFunction()
+
+    public void LockAllItemFunction()
     {
         Flashlight itemFunction = FindObjectOfType<Flashlight>();
         if (itemFunction != null)
         {
-            itemFunction.ToggleFunctionality(false);
+            itemFunction.ToggleFlashlightFunctionality(false);
         }
     }
 
-    public void UnlockItemFunction()
+    public void UnlockAllItemFunction()
     {
         Flashlight itemFunction = FindObjectOfType<Flashlight>();
         if (itemFunction != null)
         {
-            itemFunction.ToggleFunctionality(true);
+            itemFunction.ToggleFlashlightFunctionality(true);
         }
     }    
+
+#region FlashlightFunctions
+    public void LockFlashlightItemFunction()
+    {
+        Flashlight itemFunction = FindObjectOfType<Flashlight>();
+        if (itemFunction != null)
+        {
+            itemFunction.ToggleFlashlightFunctionality(false);
+        }
+    }
+
+    public void UnlockFlashlightItemFunction()
+    {
+        Flashlight itemState = FindObjectOfType<Flashlight>();
+        if (itemState != null)
+        {
+            itemState.ToggleFlashlightFunctionality(true);
+        }
+    }    
+
+    public void EquipFlashlight()
+    {
+        Flashlight itemFunction = FindObjectOfType<Flashlight>();
+        if (itemFunction != null)
+        {
+            itemFunction.ToggleFlashlightEquipState(true);
+        }
+    }    
+    public void UnequipFlashlight()
+    {
+        Flashlight itemFunction = FindObjectOfType<Flashlight>();
+        if (itemFunction != null)
+        {
+            itemFunction.ToggleFlashlightEquipState(false);
+        }
+    }        
+    #endregion    
     #endregion
 
 #region GameFunctions

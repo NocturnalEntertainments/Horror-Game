@@ -29,17 +29,16 @@ public class Interactor : MonoBehaviour
 
     void RaycastInteraction()
     {
-        //We use raycasting here using the "r" variable to check
-        Ray r = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        if (Physics.Raycast(r, out RaycastHit hitInfo, interactRange))
+    // We use raycasting here using the "r" variable to check
+    Ray r = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+    
+    if (Physics.Raycast(r, out RaycastHit hitInfo, interactRange))
+    {
+        // Check if the object hit by the ray has an InteractableObject component
+        if (hitInfo.collider.gameObject.TryGetComponent(out InteractableObject interactableObject))
         {
-            //This gets the name of the object allowing for a flexible access
-            if (hitInfo.collider.gameObject.TryGetComponent(out InteractableObject interactableObject))
-            {
-                    objectNameText.text = GetObjectName(interactableObject.ObjectName);
-            }
-
-            //This plays an animation for the UI Interaction
+            // Display the object's name and play the interaction animation
+            objectNameText.text = GetObjectName(interactableObject.ObjectName);
             interactionAnim.SetBool("NotInteracting", false);
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -51,10 +50,17 @@ public class Interactor : MonoBehaviour
         }
         else
         {
-            //Pretty much resets the whole thing when the player is no longer interacting with something
+            // Reset interaction when the player is no longer interacting with something
             interactionAnim.SetBool("NotInteracting", true);
-                objectNameText.text = "";
+            objectNameText.text = "";
         }
+    }
+    else
+    {
+        // Ensure everything is reset if the raycast doesn't hit anything
+        interactionAnim.SetBool("NotInteracting", true);
+        objectNameText.text = "";
+    }
     }
 
     public string GetObjectName(string ObjectName)

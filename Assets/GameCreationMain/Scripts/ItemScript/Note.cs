@@ -26,7 +26,7 @@ public class Note : MonoBehaviour
             //When the note is closes it access various functions in the gameManager
             Debug.Log("Note Closed");        
             GameManager.instance.LockCursor();
-            GameManager.instance.UnlockItemFunction();           
+            GameManager.instance.UnlockAllItemFunction();           
             GameManager.instance.UnlockPlayerMovement();      
             GameManager.instance.UnlockCameraMovement();               
             gameObject.SetActive(false);
