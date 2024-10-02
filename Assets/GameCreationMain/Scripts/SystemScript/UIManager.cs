@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
             //closes the option panel
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+              GameManager.instance.UnlockFlashlightItemFunction();                               
               GameManager.instance.ResumeGame();                               
               GameManager.instance.LockCursor();                  
               gameplayOptionsPanel.SetActive(false);
