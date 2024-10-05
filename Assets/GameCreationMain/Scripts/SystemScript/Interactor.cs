@@ -14,6 +14,10 @@ public class Interactor : MonoBehaviour
     public TextMeshProUGUI objectNameText;
     private Camera playerCamera;
     private Animator interactionAnim;
+    private Transform highlight;
+    private RaycastHit raycastHit;
+    private float raycastCooldown = 0.1f;
+    private float timeSinceLastRaycast = 0f;
 
     void Start()
     {
@@ -24,7 +28,13 @@ public class Interactor : MonoBehaviour
 
     void Update()
     {
-        RaycastInteraction();
+        timeSinceLastRaycast += Time.deltaTime;
+
+        if (timeSinceLastRaycast >= raycastCooldown)
+        {
+           RaycastInteraction();
+           timeSinceLastRaycast = 0f;
+        }
     }
 
     void RaycastInteraction()
@@ -40,7 +50,10 @@ public class Interactor : MonoBehaviour
             // Display the object's name and play the interaction animation
             objectNameText.text = GetObjectName(interactableObject.ObjectName);
             interactionAnim.SetBool("NotInteracting", false);
-            if (Input.GetKeyDown(KeyCode.E))
+            Transform hitTransform = hitInfo.transform;
+            HighlightObject(hitTransform);
+
+            if (highlight == hitTransform && Input.GetKeyDown(KeyCode.E))
             {
                 if (hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
                 {
@@ -51,6 +64,7 @@ public class Interactor : MonoBehaviour
         else
         {
             // Reset interaction when the player is no longer interacting with something
+            HighlightObject(null);            
             interactionAnim.SetBool("NotInteracting", true);
             objectNameText.text = "";
         }
@@ -58,6 +72,7 @@ public class Interactor : MonoBehaviour
     else
     {
         // Ensure everything is reset if the raycast doesn't hit anything
+        HighlightObject(null);     
         interactionAnim.SetBool("NotInteracting", true);
         objectNameText.text = "";
     }
@@ -66,5 +81,38 @@ public class Interactor : MonoBehaviour
     public string GetObjectName(string ObjectName)
     {
         return ObjectName;
+    }    
+
+    public void HighlightObject(Transform newHighlight)
+    {
+        if (highlight != null)
+        {
+            highlight.gameObject.GetComponent<Outline>().enabled = false;
+        }
+
+        if (newHighlight != null)
+        {
+            highlight = newHighlight;
+
+            if (highlight.CompareTag("Interactable"))
+            {
+                Outline outline = highlight.gameObject.GetComponent<Outline>();
+                if (outline != null)
+                {
+                    outline.enabled = true;
+                }
+                else
+                {
+                    outline = highlight.gameObject.AddComponent<Outline>();
+                    outline.OutlineColor = Color.white;
+                    outline.OutlineWidth = 8.0f;
+                    outline.enabled = true;
+                }
+            }
+        }
+        else
+        {
+            highlight = null;
+        }
     }    
 }

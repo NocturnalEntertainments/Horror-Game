@@ -19,7 +19,6 @@ public class Flashlight : MonoBehaviour
               ActivateAndDeactivateFlashlight();
           }
         }
-        Debug.Log(isFlaslightEquipped);
     }
 
     public void ToggleFlashlightFunctionality(bool canFunction)
