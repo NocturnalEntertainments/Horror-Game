@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.soupday.cc3_unity_tools": "file:C:/Users/user/Documents/Unity/UntitledHorrorGame/cc_unity_tools_URP-main/cc_unity_tools_URP-main",
     "com.unity.animation.rigging": "1.2.1",
     "com.unity.collab-proxy": "2.5.1",
     "com.unity.feature.2d": "2.0.0",
