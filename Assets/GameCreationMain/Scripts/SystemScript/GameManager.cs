@@ -10,8 +10,8 @@ public class GameManager : MonoBehaviour
     //This help to pause the game
     private bool isPaused = false;    
 
-    //This bool is important as it acts as a restriction in that way when an event is playing
-    //Like if the player touches a trigger and he cant move this make it so that pausing the game won't help
+    //This bool is important as it acts as a restriction when an event is playing
+    //Like if the player touches a trigger and he cant move this make it so that pausing the game won't be able to do anything (refer to the pausing function)
     public bool isPlayingEvent;
     private void Awake()
     {
@@ -113,42 +113,64 @@ public class GameManager : MonoBehaviour
         }
     }    
 
-#region FlashlightFunctions
-    public void LockFlashlightItemFunction()
+
+    //we get the itemIndex to figure which item to equip
+
+    public void RightHanditemsToEquip(int itemIndex)
     {
-        Flashlight itemFunction = FindObjectOfType<Flashlight>();
-        if (itemFunction != null)
+        switch (itemIndex)
         {
-            itemFunction.ToggleFlashlightFunctionality(false);
+            case 0:
+                Flashlight itemFunction = FindObjectOfType<Flashlight>();
+                itemFunction.ToggleFlashlightEquipState(true);
+              break;
+            default:
+               break;
         }
     }
 
-    public void UnlockFlashlightItemFunction()
+    //we get the itemIndex to figure which item to unequip
+    public void RightHanditemsToUnequip(int itemIndex)
     {
-        Flashlight itemState = FindObjectOfType<Flashlight>();
-        if (itemState != null)
+        switch (itemIndex)
         {
-            itemState.ToggleFlashlightFunctionality(true);
+            case 0:
+                Flashlight itemFunction = FindObjectOfType<Flashlight>();
+                itemFunction.ToggleFlashlightEquipState(false);
+              break;
+            default:
+               break;
         }
     }    
 
-    public void EquipFlashlight()
+    //we get the itemIndex to figure which item to lock
+    public void RightHanditemsToLock(int itemIndex)
     {
-        Flashlight itemFunction = FindObjectOfType<Flashlight>();
-        if (itemFunction != null)
+        switch (itemIndex)
         {
-            itemFunction.ToggleFlashlightEquipState(true);
+            case 0:
+                Flashlight itemFunction = FindObjectOfType<Flashlight>();
+            itemFunction.ToggleFlashlightFunctionality(false);
+              break;
+            default:
+               break;
         }
     }    
-    public void UnequipFlashlight()
+
+    //we get the itemIndex to figure which item to unlock
+    public void RightHanditemsToUnlock(int itemIndex)
     {
-        Flashlight itemFunction = FindObjectOfType<Flashlight>();
-        if (itemFunction != null)
+        switch (itemIndex)
         {
-            itemFunction.ToggleFlashlightEquipState(false);
+            case 0:
+                Flashlight itemFunction = FindObjectOfType<Flashlight>();
+            itemFunction.ToggleFlashlightFunctionality(true);
+              break;
+            default:
+               break;
         }
-    }        
-    #endregion    
+    }     
+   
     #endregion
 
 #region GameFunctions
