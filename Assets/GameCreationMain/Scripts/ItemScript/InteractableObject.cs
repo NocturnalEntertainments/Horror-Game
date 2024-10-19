@@ -9,10 +9,8 @@ public enum ObjectType
     //DoorType is a type of interactable that requires an animator (ex. Doors,Chest,Cabinets,Buttons and such)
     DestroyType,
     //DestroyType is a type of interactable that gets destroyed when interact (ex. collectibles,keys)   
-    NoteType,
+    NoteType
     //NoteType is a type of interactable that opens a GUI (ex. notes, books)  
-    CollectibleType
-    //CollectibleType is a type of interactable that the player equips (ex. skull)
 }
 
 public class InteractableObject : MonoBehaviour, IInteractable
@@ -68,10 +66,7 @@ public class InteractableObject : MonoBehaviour, IInteractable
                 GameManager.instance.LockCameraMovement();  
                 GameManager.instance.LockPlayerMovement();              
                 NoteToOpen.SetActive(true);
-                break;
-            case ObjectType.CollectibleType:   
-                Debug.Log("Item Equipped");
-                break;                                       
+                break;                                
         }
     }
 }

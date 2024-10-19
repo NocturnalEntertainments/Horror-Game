@@ -7,14 +7,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.soupday.cc3_unity_tools": {
-      "version": "file:C:/Users/user/Documents/Unity/UntitledHorrorGame/cc_unity_tools_URP-main/cc_unity_tools_URP-main",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {
-        "com.unity.render-pipelines.universal": "10.5.0"
-      }
-    },
     "com.unity.2d.animation": {
       "version": "9.1.0",
       "depth": 1,
