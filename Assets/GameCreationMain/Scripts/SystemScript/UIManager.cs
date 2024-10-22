@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,13 +11,10 @@ public class UIManager : MonoBehaviour
 
     [Header("MainMenu Settings")]       
     public GameObject mainmenuOptionsPanel; 
+    //Temporary Fix for start and settings button ui missing it's reference
     public GameObject mainmenuUI;     
     public bool isInMainMenu;   
     public static UIManager instance;
-
-    [Header("Loading Settings")]   
-    public GameObject LoadingScreen;
-
     private void Awake()
     {
         if (instance == null)
@@ -29,6 +27,7 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
         }                 
     }    
+
 
     void Update()
     {
@@ -44,26 +43,28 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    #region UI Panels
+#region UI Panels
     public void SettingsGameplayPanelFunction()
     {
         if(!gameplayOptionsPanel.activeSelf)
         {
+            //opens the option panel
             if (Input.GetKeyDown(KeyCode.Escape) && !GameManager.instance.IsGamePaused())
             {      
-                GameManager.instance.PauseGame();                 
-                GameManager.instance.UnlockCursor();                             
-                gameplayOptionsPanel.SetActive(true);
+              GameManager.instance.PauseGame();                 
+              GameManager.instance.UnlockCursor();                             
+              gameplayOptionsPanel.SetActive(true);
             }     
         }   
         else
         {
+            //closes the option panel
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                GameManager.instance.RightHanditemsToUnlock(0);                               
-                GameManager.instance.ResumeGame();                               
-                GameManager.instance.LockCursor();                  
-                gameplayOptionsPanel.SetActive(false);
+              GameManager.instance.UnlockFlashlightItemFunction();                               
+              GameManager.instance.ResumeGame();                               
+              GameManager.instance.LockCursor();                  
+              gameplayOptionsPanel.SetActive(false);
             }                 
         }
     }
@@ -72,25 +73,27 @@ public class UIManager : MonoBehaviour
     {
         if(!mainmenuOptionsPanel.activeSelf)
         {
+            //opens the option panel
             if (Input.GetKeyDown(KeyCode.Escape))
             {                        
-                mainmenuOptionsPanel.SetActive(true);
+              mainmenuOptionsPanel.SetActive(true);
             }     
         }   
         else
         {
+            //closes the option panel
             if (Input.GetKeyDown(KeyCode.Escape))
-            {                                      
-                mainmenuOptionsPanel.SetActive(false);
+            {                                        
+              mainmenuOptionsPanel.SetActive(false);
             }                 
         }
     }    
-    #endregion
+#endregion
 
-    #region UI Button Functions
+#region UI Button Functions
     public void PlayGame()
     {
-        SpecificLoadScene(1);      
+        SceneManager.LoadScene("TestScene");      
         isInMainMenu = false;          
     }
 
@@ -98,39 +101,9 @@ public class UIManager : MonoBehaviour
     {
         gameplayOptionsPanel.SetActive(false);
         GameManager.instance.UnlockCursor();    
-        SpecificLoadScene(0);
+        SceneManager.LoadScene("MainMenu");
         GameManager.instance.ResumeGame();      
         isInMainMenu = true;                           
     }   
-    #endregion 
-
-    #region Loading Screen UI  
-
-    public void SpecificLoadScene(int sceneId)
-    {
-        StartCoroutine(LoadSceneAsync(sceneId));
-    }
-
-    public void NextLoadScene()
-    {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        StartCoroutine(LoadSceneAsync(currentSceneIndex + 1));
-    }    
-
-    IEnumerator LoadSceneAsync(int sceneId)
-    {
-        // Start loading the scene asynchronously
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
-        LoadingScreen.SetActive(true);
-
-        // Wait until the scene is fully loaded
-        while (!operation.isDone)
-        {
-            yield return null; // Wait for the next frame
-        }
-
-        // Deactivate the loading screen after the scene has loaded
-        LoadingScreen.SetActive(false);
-    }
     #endregion 
 }
