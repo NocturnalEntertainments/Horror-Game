@@ -23,15 +23,25 @@ public class InteractableObject : MonoBehaviour, IInteractable
     
     //This is for the note thingy if you picked a note type this would appear in the inspector
     public GameObject NoteToOpen;
+    public float smooth = 2.0f;
+    public float DoorOpenAngle = 90.0f;    
 
     private Interactor interactor;
     private Animator doorAnim;
+    private Vector3 defaulRot;
+    private Vector3 openRot;    
+    private bool open;
 
     private void Start() 
     {
         //This code here finds objects that has the interactor script
         interactor = FindObjectOfType<Interactor>();
         SetupComponents();
+    }
+
+    private void Update()
+    {
+         doorMechanic();        
     }
 
     public void SetupComponents()
@@ -42,7 +52,8 @@ public class InteractableObject : MonoBehaviour, IInteractable
         switch (objectType)
         {
             case ObjectType.DoorType:
-                doorAnim = GetComponent<Animator>(); 
+               defaulRot = transform.eulerAngles;
+               openRot = new Vector3(defaulRot.x, defaulRot.y + DoorOpenAngle, defaulRot.z);
                 break;                           
         }
     }
@@ -53,7 +64,7 @@ public class InteractableObject : MonoBehaviour, IInteractable
         switch (objectType)
         {
             case ObjectType.DoorType:
-                Debug.Log("Door Open");
+                open = !open;
                 break;
             case ObjectType.DestroyType:
                 Debug.Log("Destroyed");
@@ -67,6 +78,18 @@ public class InteractableObject : MonoBehaviour, IInteractable
                 GameManager.instance.LockPlayerMovement();              
                 NoteToOpen.SetActive(true);
                 break;                                
+        }
+    }
+
+    private void doorMechanic()
+    {
+        if (open)
+        {
+            transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, openRot, Time.deltaTime * smooth);
+        }
+        else
+        {
+            transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, defaulRot, Time.deltaTime * smooth);
         }
     }
 }
